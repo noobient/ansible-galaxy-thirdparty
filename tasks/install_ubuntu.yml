@@ -3,46 +3,46 @@
 # thirdparty_conflict is always defined for the next step
 - name: Check if conflicting packages are installed
   shell:
-    cmd: "{% if item.except is defined%}apt list --installed | grep \"{{ item.except }}/\"{% else %}false{% endif %}"
+    cmd: "{% if except is defined%}apt list --installed | grep \"{{ except }}/\"{% else %}false{% endif %}"
   failed_when: false
   changed_when: false
   register: thirdparty_conflict
 
 # if version is undefined, unhold to ensure the latest is installed
 # rc = 100 when 'Unable to locate package' = not installed yet
-- name: "Unhold {{ item.package }}"
+- name: "Unhold {{ package }}"
   command:
-    cmd: "apt-mark unhold {{ item.package }}"
+    cmd: "apt-mark unhold {{ package }}"
   register: thirdparty_unhold
   changed_when: ('was already not hold.' not in thirdparty_unhold.stdout) and (thirdparty_unhold.rc != 100)
   failed_when: (thirdparty_unhold.rc != 0) and (thirdparty_unhold.rc != 100)
-  when: item.version is not defined
+  when: version is not defined
 
 # allow upgrades from one specified version to another
-- name: "Unhold {{ item.package }}"
+- name: "Unhold {{ package }}"
   shell:
-    cmd: "apt install --simulate {{ item.package }}={{ item.version }} | grep -E 'The following packages will be upgraded{% if item.allow_downgrade is defined and item.allow_downgrade == True %}|The following packages will be DOWNGRADED{% endif %}' && apt-mark unhold {{ item.package }}"
+    cmd: "apt install --simulate {{ package }}={{ version }} | grep -E 'The following packages will be upgraded{% if allow_downgrade is defined and allow_downgrade == True %}|The following packages will be DOWNGRADED{% endif %}' && apt-mark unhold {{ package }}"
   failed_when: false
   changed_when: thirdparty_unhold2.rc == 0
   register: thirdparty_unhold2
-  when: item.version is defined
+  when: version is defined
 
-- name: "Install {{ item.name }}"
+- name: "Install {{ name }}"
   apt:
-    name: "{{ item.package }}{% if item.version is defined and item.version | length > 0 %}={{ item.version }}{% endif %}"
-    state: "{% if item.version is defined and item.version | length > 0 %}present{% else %}latest{% endif %}"
+    name: "{{ package }}{% if version is defined and version | length > 0 %}={{ version }}{% endif %}"
+    state: "{% if version is defined and version | length > 0 %}present{% else %}latest{% endif %}"
     update_cache: true
-    install_recommends: "{{ item.install_recommends | default('yes') }}"
-    dpkg_options: "force-confold,force-confdef{% if item.allow_downgrade is defined and item.allow_downgrade == True %},force-downgrade{% endif %}"
+    install_recommends: "{{ install_recommends | default('yes') }}"
+    dpkg_options: "force-confold,force-confdef{% if allow_downgrade is defined and allow_downgrade == True %},force-downgrade{% endif %}"
   register: thirdparty_install
   when: thirdparty_conflict.rc != 0
 
-- name: "Hold {{ item.package }}"
+- name: "Hold {{ package }}"
   command:
-    cmd: "apt-mark hold {{ item.package }}"
+    cmd: "apt-mark hold {{ package }}"
   register: thirdparty_hold
   changed_when: ('was already set on hold.' not in thirdparty_hold.stdout)
-  when: item.version is defined
+  when: version is defined
 
 # enforce upgrade if the repo provides a newer version of an Ubuntu package
 # e.g. PostgreSQL's libpq/libgeos packages
@@ -57,9 +57,9 @@
     autoremove: true
 
 # installing the package adds noise to the repo file in postinst, fix it
-- name: "Fix {{ item.name }} repo file"
+- name: "Fix {{ name }} repo file"
   template:
-    src: "{{ item.repo_file }}.list.j2"
-    dest: "/etc/apt/sources.list.d/{{ item.repo_file }}.list"
+    src: "{{ repo_file }}.list.j2"
+    dest: "/etc/apt/sources.list.d/{{ repo_file }}.list"
     mode: '0644'
   when: (thirdparty_install.changed) and (item.repo_overwrite is defined) and (item.repo_overwrite)

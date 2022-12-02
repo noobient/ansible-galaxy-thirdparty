@@ -1,19 +1,19 @@
 ---
-- name: "Import {{ item.name }} GPG key"
+- name: "Import {{ name }} GPG key"
   apt_key:
-    url: "{{ item.gpg_url }}"
+    url: "{{ gpg_url }}"
     state: present
-  when: item.gpg_url is defined
+  when: gpg_url is defined
 
-- name: "Import {{ item.name }} GPG key"
+- name: "Import {{ name }} GPG key"
   apt_key:
-    keyserver: "{{ item.gpg_server }}"
-    id: "{{ item.gpg_id }}"
+    keyserver: "{{ gpg_server }}"
+    id: "{{ gpg_id }}"
     state: present
   when: (item.gpg_server is defined) and (item.gpg_id is defined)
 
-- name: "Import {{ item.name }} GPG key"
+- name: "Import {{ name }} GPG key"
   apt_key:
-    data: "{{ lookup('file', '{{ item.gpg_file }}.asc') }}"
+    data: "{{ lookup('file', '{{ gpg_file }}.asc') }}"
     state: present
-  when: item.gpg_file is defined
+  when: gpg_file is defined
