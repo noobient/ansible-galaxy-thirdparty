@@ -1,0 +1,5 @@
+---
+- name: Run ldconfig
+  command:
+    cmd: ldconfig
+  when: thirdparty_install.changed and item.ldconfig is defined and item.ldconfig
