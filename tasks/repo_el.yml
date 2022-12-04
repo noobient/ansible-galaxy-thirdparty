@@ -1,6 +1,19 @@
 ---
+- name: Check if repo data is present
+  fail:
+    msg: "Error! You need either 'repo_file' or 'repo_url' set."
+  when: (repo_file is not defined) and (repo_url is not defined)
+
 - name: "Add {{ name }} repo"
   template:
     src: "{{ repo_file }}.repo.j2"
     dest: "/etc/yum.repos.d/{{ repo_file }}.repo"
     mode: '0644'
+  when: repo_file is defined
+
+- name: "Add {{ name }} repo"
+  get_url:
+    url: "{{ repo_url }}"
+    dest: "/etc/yum.repos.d/{{ (repo_url.split('/') | last).split('.') | first }}.repo"
+    mode: '0644'
+  when: repo_url is defined
