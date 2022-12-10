@@ -5,10 +5,5 @@
   when: ansible_os_family == 'Debian'
 
 - include_tasks: repo.yml
-
-- include_tasks: install_el.yml
-  when: ansible_os_family == 'RedHat'
-- include_tasks: install_ubuntu.yml
-  when: ansible_os_family == 'Debian'
-
+- include_tasks: "{% if except is defined and except|length %}install_except.yml{% else %}install.yml{% endif %}"
 - include_tasks: ldconfig.yml

@@ -32,3 +32,17 @@
         repo_file: 'google-chrome'
         repo_overwrite: true
         gpg_allow_sha1: true
+
+    - name: Install psmisc
+      package:
+        name: psmisc
+        stat: latest
+
+    - include_role:
+        name: "{{ playbook_dir.split('/')[:-1] | last }}"
+      vars:
+        name: 'VS Code'
+        gpg_url: 'https://packages.microsoft.com/keys/microsoft.asc'
+        repo_file: 'vscode'
+        package: 'code'
+        except: 'psmisc'

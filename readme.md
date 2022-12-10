@@ -20,7 +20,7 @@ This role lets you install packages from third party repositories.
 | `gpg_allow_sha1` | no | `true` | By default, EL 9 and up won't allow importing RPM keys with SHA1 algo. Setting this to `true` temporarily changes the policy to allow SHA1 keys. Only supported on Red Hat derivatives. |
 | `ldconfig` | no | `true` | If `true`, ldconfig is ran after the installation finishes. Useful when installing libraries that extend `LD_LIBRARY_PATH`. |
 | `repo_overwrite` | no | `true` | If `true`, the repo file is deployed once more after package installation. Useful when the package alters the repo file during installation and thus would break idempotency, e.g. Google Chrome. |
-| `except` | no | `clamav` | Avoid installing `package` on systems where this package is installed. Only supported on Debian derivatives. |
+| `except` | no | `clamav` | Avoid installing `package` on systems where this package is installed. |
 | `install_recommends` | no | `false` | By default, recommended dependencies are installed. This instructs apt to don't do that. Only supported on Debian derivatives. |
 
 You must specify either:

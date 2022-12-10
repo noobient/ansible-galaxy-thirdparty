@@ -1,13 +1,4 @@
 ---
-# use inline jinja conditional instead of when: so that
-# thirdparty_conflict is always defined for the next step
-- name: Check if conflicting packages are installed
-  shell:
-    cmd: "{% if except is defined%}apt list --installed | grep \"{{ except }}/\"{% else %}false{% endif %}"
-  failed_when: false
-  changed_when: false
-  register: thirdparty_conflict
-
 # if version is undefined, unhold to ensure the latest is installed
 # rc = 100 when 'Unable to locate package' = not installed yet
 - name: "Unhold {{ package }}"
@@ -35,7 +26,6 @@
     install_recommends: "{{ install_recommends | default('yes') }}"
     dpkg_options: "force-confold,force-confdef{% if allow_downgrade is defined and allow_downgrade == True %},force-downgrade{% endif %}"
   register: thirdparty_install
-  when: thirdparty_conflict.rc != 0
 
 - name: "Hold {{ package }}"
   command:

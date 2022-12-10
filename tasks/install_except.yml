@@ -1,0 +1,10 @@
+---
+- name: Check if conflicting packages are installed
+  shell:
+    cmd: "{% ansible_os_family == 'RedHat' %}dnf list installed {{ except }}{% else %}apt list --installed | grep {{ except }}{% endif %}"
+  changed_when: false
+  failed_when: false
+  register: thirdparty_conflict
+
+- include_tasks: install.yml
+  when: thirdparty_conflict.rc != 0
