@@ -1,10 +1,10 @@
 ---
 - name: Install versionlock plugin
-  yum:
-    name: "{% if ansible_pkg_mgr == 'dnf' %}python3-dnf-plugin-versionlock{% else %}yum-versionlock{% endif %}"
+  dnf:
+    name: python3-dnf-plugin-versionlock
     state: latest
-  register: installed_yumversionlock
-  when: installed_yumversionlock is not defined
+  register: installed_dnfversionlock
+  when: installed_dnfversionlock is not defined
 
 # use inline jinja conditional instead of when: so that thirdparty_installedversion is always defined for the next step
 - name: Check if matching version is installed
@@ -17,14 +17,14 @@
 # rc=1 when not locked
 - name: "Delete {{ package }} version lock" # noqa command-instead-of-module
   command:
-    cmd: "yum versionlock delete {{ package }}"
+    cmd: "dnf versionlock delete {{ package }}"
   register: thirdparty_unlock
-  changed_when: (yumlock_del_str not in thirdparty_unlock.stderr)
+  changed_when: (dnflock_del_str in thirdparty_unlock.stderr)
   failed_when: (thirdparty_unlock.rc != 0) and (thirdparty_unlock.rc != 1)
   when: (item.version is not defined) or (thirdparty_installedversion.rc != 0)
 
 - name: "Install {{ name }}"
-  yum:
+  dnf:
     name: "{{ package }}{% if version is defined and version | length > 0 %}-{{ version }}{% endif %}"
     state: "{% if version is defined and version | length > 0 %}present{% else %}latest{% endif %}"
     allow_downgrade: "{% if version is defined and version | length > 0 %}yes{% else %}no{% endif %}"
@@ -32,7 +32,7 @@
 
 - name: "Add {{ package }} version lock" # noqa command-instead-of-module
   command:
-    cmd: "yum versionlock add {{ package }}"
+    cmd: "dnf versionlock add {{ package }}"
   register: thirdparty_lock
-  changed_when: (yumlock_add_str not in thirdparty_lock.stdout)
+  changed_when: (dnflock_add_str in thirdparty_lock.stdout)
   when: (item.version is defined) and (thirdparty_installedversion.rc != 0)
