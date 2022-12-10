@@ -2,7 +2,7 @@
 - include_tasks: gpg_el.yml
   when: ansible_os_family == 'RedHat'
 - include_tasks: gpg_ubuntu.yml
-  when: ansible_os_family == 'Ubuntu'
+  when: ansible_os_family == 'Debian'
 
 - include_tasks: repo_el.yml
   when: ansible_os_family == 'RedHat'

@@ -1,0 +1,11 @@
+---
+- hosts: 127.0.0.1
+  tasks:
+    - include_role:
+        name: "{{ playbook_dir.split('/')[:-1] | last }}"
+      vars:
+        name: 'Defender ATP'
+        gpg_url: 'https://packages.microsoft.com/keys/microsoft.asc'
+        repo_file: 'microsoft-prod'
+        package: 'mdatp'
+      when: ansible_distribution == 'Ubuntu'
