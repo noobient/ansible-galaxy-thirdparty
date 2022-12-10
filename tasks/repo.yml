@@ -6,7 +6,7 @@
 
 - set_fact:
     thirdparty_repo_ext: "{% if ansible_os_family == 'RedHat' %}repo{% else %}list{% endif %}"
-    thirdparty_repo_dir: "{% if ansible_os_family == 'RedHat' %}/etc/yum.repos.d{% else %}/etc/apt.sources.list.d{% endif %}"
+    thirdparty_repo_dir: "{% if ansible_os_family == 'RedHat' %}/etc/yum.repos.d{% else %}/etc/apt/sources.list.d{% endif %}"
 
 - name: "Add {{ name }} repo"
   template:
