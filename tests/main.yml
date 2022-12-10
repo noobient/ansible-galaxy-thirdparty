@@ -9,3 +9,4 @@
         repo_file: 'microsoft-prod'
         package: 'mdatp'
         ldconfig: true
+        install_recommends: false
