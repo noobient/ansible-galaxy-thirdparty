@@ -59,4 +59,4 @@
 # installing the package adds noise to the repo file in postinst, fix it
 - name: "Fix {{ name }} repo file"
   include_tasks: repo.yml
-  when: (thirdparty_install.changed) and (item.repo_overwrite is defined) and (item.repo_overwrite|bool)
+  when: (thirdparty_install.changed) and (repo_overwrite is defined) and (repo_overwrite|bool)
