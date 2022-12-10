@@ -5,3 +5,10 @@
     dest: "/etc/apt/sources.list.d/{{ repo_file }}.list"
     mode: '0644'
   when: repo_file is defined
+
+- name: "Add {{ name }} repo"
+  get_url:
+    url: "{{ repo_url }}"
+    dest: "/etc/apt.sources.list.d/{{ (repo_url.split('/') | last).split('.') | first }}.list"
+    mode: '0644'
+  when: repo_url is defined

@@ -4,3 +4,9 @@
     key: "{{ gpg_url }}"
     state: present
   when: gpg_url is defined
+
+- name: "Import {{ name }} GPG key"
+  rpm_key:
+    key: "{{ gpg_url }}"
+    state: present
+  when: gpg_file is defined

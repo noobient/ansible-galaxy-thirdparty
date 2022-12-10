@@ -1,9 +1,4 @@
 ---
-- name: Check if repo data is present
-  fail:
-    msg: "Error! You need either 'repo_file' or 'repo_url' set."
-  when: (repo_file is not defined) and (repo_url is not defined)
-
 - name: "Add {{ name }} repo"
   template:
     src: "{{ repo_file }}.repo.j2"

@@ -7,13 +7,13 @@
 
 - name: "Import {{ name }} GPG key"
   apt_key:
+    data: "{{ lookup('file', '{{ gpg_file }}.asc') }}"
+    state: present
+  when: gpg_file is defined
+
+- name: "Import {{ name }} GPG key"
+  apt_key:
     keyserver: "{{ gpg_server }}"
     id: "{{ gpg_id }}"
     state: present
   when: (item.gpg_server is defined) and (item.gpg_id is defined)
-
-- name: "Import {{ name }} GPG key"
-  apt_key:
-    data: "{{ lookup('file', '{{ gpg_file }}.asc') }}"
-    state: present
-  when: gpg_file is defined

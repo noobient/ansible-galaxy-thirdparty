@@ -4,6 +4,11 @@
 - include_tasks: gpg_ubuntu.yml
   when: ansible_os_family == 'Debian'
 
+- name: Check if repo data is present
+  fail:
+    msg: "Error! You need either 'repo_file' or 'repo_url' set."
+  when: (repo_file is not defined) and (repo_url is not defined)
+
 - include_tasks: repo_el.yml
   when: ansible_os_family == 'RedHat'
 - include_tasks: repo_ubuntu.yml
