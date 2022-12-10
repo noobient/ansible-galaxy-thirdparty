@@ -5,9 +5,9 @@
         name: "{{ playbook_dir.split('/')[:-1] | last }}"
       vars:
         name: 'Defender ATP'
+        package: 'mdatp'
         gpg_url: 'https://packages.microsoft.com/keys/microsoft.asc'
         repo_file: 'microsoft-prod'
-        package: 'mdatp'
         install_recommends: false
         repo_overwrite: true
 
@@ -17,18 +17,19 @@
     - include_role:
         name: "{{ playbook_dir.split('/')[:-1] | last }}"
       vars:
-        name: 'Ansible'
+        name: 'Insync'
+        package: 'insync'
         gpg_server: 'keyserver.ubuntu.com'
-        gpg_id: '6125E2A8C77F2818FB7BD15B93C4A3FD7BB9C367'
-        repo_file: 'ansible'
-        package: 'ansible'
+        gpg_id: 'ACCAF35C'
+        repo_file: 'insync'
+        repo_overwrite: true
       when: ansible_distribution == 'Ubuntu'
 
     - include_role:
         name: "{{ playbook_dir.split('/')[:-1] | last }}"
       vars:
         name: 'Google Chrome'
+        package: 'google-chrome-stable'
         gpg_file: 'linux_signing_key.pub'
         repo_file: 'google-chrome'
-        package: 'google-chrome-stable'
         repo_overwrite: true

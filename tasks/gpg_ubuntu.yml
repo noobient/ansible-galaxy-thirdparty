@@ -16,4 +16,4 @@
     keyserver: "{{ gpg_server }}"
     id: "{{ gpg_id }}"
     state: present
-  when: (item.gpg_server is defined) and (item.gpg_id is defined)
+  when: (gpg_server is defined) and (gpg_id is defined)

@@ -11,10 +11,10 @@
     name: "{{ playbook_dir.split('/')[:-1] | last }}"
   vars:
     name: 'Vulkan SDK'
-    gpg_url: 'https://packages.lunarg.com/lunarg-signing-key-pub.asc'
-    repo_file: 'lunarg-vulkan'
     package: 'vulkan-sdk'
     version: "1.3.231.0~rc1-1lunarg{{ ansible_distribution_version }}-1"
+    gpg_url: 'https://packages.lunarg.com/lunarg-signing-key-pub.asc'
+    repo_file: 'lunarg-vulkan'
     ldconfig: true
 
 - name: Check LD paths
