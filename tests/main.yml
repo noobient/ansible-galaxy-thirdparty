@@ -36,7 +36,7 @@
     - name: Install psmisc
       package:
         name: psmisc
-        stat: latest
+        state: latest
 
     - include_role:
         name: "{{ playbook_dir.split('/')[:-1] | last }}"
