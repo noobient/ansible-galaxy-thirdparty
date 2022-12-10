@@ -8,4 +8,4 @@
         gpg_url: 'https://packages.microsoft.com/keys/microsoft.asc'
         repo_file: 'microsoft-prod'
         package: 'mdatp'
-      when: ansible_distribution == 'Ubuntu'
+        ldconfig: true

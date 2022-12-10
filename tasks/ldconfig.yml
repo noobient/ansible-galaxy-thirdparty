@@ -2,4 +2,4 @@
 - name: Run ldconfig
   command:
     cmd: ldconfig
-  when: thirdparty_install.changed and ldconfig is defined and ldconfig
+  when: thirdparty_install.changed and ldconfig is defined and ldconfig|bool
