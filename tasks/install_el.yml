@@ -36,3 +36,8 @@
   register: thirdparty_lock
   changed_when: (dnflock_add_str in thirdparty_lock.stdout)
   when: (item.version is defined) and (thirdparty_installedversion.rc != 0)
+
+# installing the package adds noise to the repo file in postinst, fix it
+- name: "Fix {{ name }} repo file"
+  include_tasks: repo.yml
+  when: (thirdparty_install.changed) and (item.repo_overwrite is defined) and (item.repo_overwrite|bool)

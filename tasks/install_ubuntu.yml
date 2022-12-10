@@ -58,8 +58,5 @@
 
 # installing the package adds noise to the repo file in postinst, fix it
 - name: "Fix {{ name }} repo file"
-  template:
-    src: "{{ repo_file }}.list.j2"
-    dest: "/etc/apt/sources.list.d/{{ repo_file }}.list"
-    mode: '0644'
-  when: (thirdparty_install.changed) and (item.repo_overwrite is defined) and (item.repo_overwrite)
+  include_tasks: repo.yml
+  when: (thirdparty_install.changed) and (item.repo_overwrite is defined) and (item.repo_overwrite|bool)

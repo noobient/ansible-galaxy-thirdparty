@@ -1,0 +1,23 @@
+---
+- name: Check if repo data is present
+  fail:
+    msg: "Error! You need either 'repo_file' or 'repo_url' set."
+  when: (repo_file is not defined) and (repo_url is not defined)
+
+- set_fact:
+    thirdparty_repo_ext: "{% if ansible_os_family == 'RedHat' %}repo{% else %}list{% endif %}"
+    thirdparty_repo_dir: "{% if ansible_os_family == 'RedHat' %}/etc/yum.repos.d{% else %}/etc/apt.sources.list.d{% endif %}"
+
+- name: "Add {{ name }} repo"
+  template:
+    src: "{{ repo_file }}.{{ thirdparty_repo_ext }}.j2"
+    dest: "{{ thirdparty_repo_dir }}/{{ repo_file }}.{{ thirdparty_repo_ext }}"
+    mode: '0644'
+  when: repo_file is defined
+
+- name: "Add {{ name }} repo"
+  get_url:
+    url: "{{ repo_url }}"
+    dest: "{{ thirdparty_repo_dir }}/{{ (repo_url.split('/') | last).split('.') | first }}.{{ thirdparty_repo_ext }}"
+    mode: '0644'
+  when: repo_url is defined

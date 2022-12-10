@@ -9,6 +9,7 @@
         repo_file: 'microsoft-prod'
         package: 'mdatp'
         install_recommends: false
+        repo_overwrite: true
 
     - include_tasks: vulkan.yml
       when: (ansible_distribution == 'Ubuntu') and (ansible_distribution_major_version >= '20')
@@ -16,12 +17,11 @@
     - include_role:
         name: "{{ playbook_dir.split('/')[:-1] | last }}"
       vars:
-        name: 'Insync'
+        name: 'Ansible'
         gpg_server: 'keyserver.ubuntu.com'
-        gpg_id: 'ACCAF35C'
-        repo_file: 'insync'
-        package: 'insync'
-        repo_overwrite: true
+        gpg_id: '6125E2A8C77F2818FB7BD15B93C4A3FD7BB9C367'
+        repo_file: 'ansible'
+        package: 'ansible'
       when: ansible_distribution == 'Ubuntu'
 
     - include_role:
