@@ -46,3 +46,21 @@
         repo_file: 'vscode'
         package: 'code'
         conflict: 'psmisc'
+
+    - include_role:
+        name: "{{ playbook_dir.split('/')[:-1] | last }}"
+      vars:
+        name: '.NET SDK'
+        gpg_url: 'https://packages.microsoft.com/keys/microsoft.asc'
+        repo_url: 'https://packages.microsoft.com/config/centos/8/prod.repo'
+        package: 'dotnet-sdk-7.0'
+      when: ansible_distribution == 'AlmaLinux'
+
+    - include_role:
+        name: "{{ playbook_dir.split('/')[:-1] | last }}"
+      vars:
+        name: '.NET SDK'
+        gpg_url: 'https://packages.microsoft.com/keys/microsoft.asc'
+        repo_url: 'https://packages.microsoft.com/config/ubuntu/{{ ansible_distribution_version }}/prod.list'
+        package: 'dotnet-sdk-7.0'
+      when: ansible_distribution == 'Ubuntu'
