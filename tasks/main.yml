@@ -5,5 +5,5 @@
   when: ansible_os_family == 'Debian'
 
 - include_tasks: repo.yml
-- include_tasks: "{% if except is defined and except|length %}install_except.yml{% else %}install.yml{% endif %}"
+- include_tasks: "{% if conflict is defined and conflict | length %}install_conflict.yml{% else %}install.yml{% endif %}"
 - include_tasks: ldconfig.yml

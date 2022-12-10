@@ -45,4 +45,4 @@
         gpg_url: 'https://packages.microsoft.com/keys/microsoft.asc'
         repo_file: 'vscode'
         package: 'code'
-        except: 'psmisc'
+        conflict: 'psmisc'
