@@ -9,7 +9,6 @@
         gpg_url: 'https://packages.microsoft.com/keys/microsoft.asc'
         repo_file: 'microsoft-prod'
         install_recommends: false
-        repo_overwrite: true
 
     - include_tasks: vulkan.yml
       when: (ansible_distribution == 'Ubuntu') and (ansible_distribution_major_version >= '20')
@@ -22,7 +21,6 @@
         gpg_server: 'keyserver.ubuntu.com'
         gpg_id: 'ACCAF35C'
         repo_file: 'insync'
-        repo_overwrite: true
       when: ansible_distribution == 'Ubuntu'
 
     - include_role:

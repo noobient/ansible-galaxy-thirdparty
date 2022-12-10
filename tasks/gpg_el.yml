@@ -5,8 +5,20 @@
     state: present
   when: gpg_url is defined
 
+# https://github.com/ansible/ansible/issues/10515
+# Even with workarounds, it gives 'Not a valid key' errors, so copy first.
+# Use 'package' for destination filename, as that should be unique.
+- name: "Copy {{ name }} GPG key"
+  copy:
+    src: "{{ gpg_file }}"
+    dest: "/etc/pki/rpm-gpg/{{ package }}"
+    owner: root
+    group: root
+    mode: '0644'
+  when: gpg_file is defined
+
 - name: "Import {{ name }} GPG key"
   rpm_key:
-    key: "{{ lookup('file', '{{ gpg_file }}') }}"
+    key: "/etc/pki/rpm-gpg/{{ package }}"
     state: present
   when: gpg_file is defined
