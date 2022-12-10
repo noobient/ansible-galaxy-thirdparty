@@ -31,3 +31,4 @@
         gpg_file: 'linux_signing_key.pub'
         repo_file: 'google-chrome'
         repo_overwrite: true
+        gpg_allow_sha1: true

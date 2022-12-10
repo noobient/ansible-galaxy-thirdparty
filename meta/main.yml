@@ -8,4 +8,5 @@ galaxy_info:
   platforms: []
   galaxy_tags: []
 
-dependencies: []
+dependencies:
+  - bviktor.rpm_policy

@@ -17,8 +17,21 @@
     mode: '0644'
   when: gpg_file is defined
 
+# https://www.redhat.com/en/blog/rhel-security-sha-1-package-signatures-distrusted-rhel-9
+- include_role:
+    name: bviktor.rpm_policy
+  vars:
+    policy: 'LEGACY'
+  when: gpg_allow_sha1 is defined and gpg_allow_sha1|bool
+
 - name: "Import {{ name }} GPG key"
   rpm_key:
     key: "/etc/pki/rpm-gpg/{{ package }}"
     state: present
   when: gpg_file is defined
+
+- include_role:
+    name: bviktor.rpm_policy
+  vars:
+    policy: 'DEFAULT'
+  when: gpg_allow_sha1 is defined and gpg_allow_sha1|bool
