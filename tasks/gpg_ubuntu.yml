@@ -7,7 +7,7 @@
 
 - name: "Import {{ name }} GPG key"
   apt_key:
-    data: "{{ lookup('file', '{{ gpg_file }}.asc') }}"
+    data: "{{ lookup('file', '{{ gpg_file }}') }}"
     state: present
   when: gpg_file is defined
 

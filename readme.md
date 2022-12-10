@@ -14,7 +14,7 @@ This role lets you install packages from third party repositories.
 | `repo_file` | no | `microsoft-prod` | Repo file in your `templates` directory without the `.repo.j2` or `list.j2` suffix. If not specified, you must specify `repo_url`. |
 | `repo_url` | no | `https://packages.microsoft.com/config/rhel/8/prod.repo` | Repo file URL. If not specified, you must specify `repo_file`. |
 | `gpg_url` | no | `https://packages.microsoft.com/keys/microsoft.asc` | URL for the GPG file used to sign the repo. |
-| `gpg_file` | no | `nordlayer-keyring` | GPG file in your `files` directory without the `.asc` suffix. Not recommended, since GPG keys regularly change in most repos. |
+| `gpg_file` | no | `nordlayer-keyring.asc` | GPG file in your `files` directory. Not recommended, since GPG keys regularly change in most repos. |
 | `gpg_server` | no | `keyserver.ubuntu.com` | GPG server address to import the key from. Only supported on Debian derivatives. |
 | `gpg_id` | no | `ACCAF35C` | ID of the key hosted on the GPG server. Only supported on Debian derivatives. |
 | `ldconfig` | no | `true` | If `true`, ldconfig is ran after the installation finishes. Useful when installing libraries that extend `LD_LIBRARY_PATH`. |

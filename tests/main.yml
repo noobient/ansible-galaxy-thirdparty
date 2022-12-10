@@ -8,5 +8,50 @@
         gpg_url: 'https://packages.microsoft.com/keys/microsoft.asc'
         repo_file: 'microsoft-prod'
         package: 'mdatp'
-        ldconfig: true
         install_recommends: false
+
+    - name: Check LD paths
+      shell:
+        cmd: ldconfig -v 2>/dev/null | grep ':'
+      register: ld_paths
+      when: ansible_distribution == 'Ubuntu'
+    - debug:
+        msg: "{{ ld_paths.stdout }}"
+      when: ansible_distribution == 'Ubuntu'
+    - include_role:
+        name: "{{ playbook_dir.split('/')[:-1] | last }}"
+      vars:
+        name: 'Vulkan SDK'
+        gpg_url: 'https://packages.lunarg.com/lunarg-signing-key-pub.asc'
+        repo_file: 'lunarg-vulkan'
+        package: 'vulkan-sdk'
+        version: '1.3.231'
+        ldconfig: true
+      when: ansible_distribution == 'Ubuntu'
+    - name: Check LD paths
+      shell:
+        cmd: ldconfig -v 2>/dev/null | grep ':'
+      register: ld_paths
+      when: ansible_distribution == 'Ubuntu'
+    - debug:
+        msg: "{{ ld_paths.stdout }}"
+      when: ansible_distribution == 'Ubuntu'
+
+    - include_role:
+        name: "{{ playbook_dir.split('/')[:-1] | last }}"
+      vars:
+        name: 'Vagrant'
+        gpg_server: 'keyserver.ubuntu.com'
+        gpg_id: 'AD319E0F7CFFA38B4D9F6E55CE3F3DE92099F7A4'
+        repo_file: 'wolfgang42-vagrant'
+        package: 'vagrant'
+      when: ansible_distribution == 'Ubuntu'
+
+    - include_role:
+        name: "{{ playbook_dir.split('/')[:-1] | last }}"
+      vars:
+        name: 'Google Chrome'
+        gpg_file: 'linux_signing_key.pub'
+        repo_file: 'google-chrome'
+        package: 'google-chrome-stable'
+        repo_overwrite: true
