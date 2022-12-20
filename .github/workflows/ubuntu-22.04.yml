@@ -21,7 +21,5 @@ jobs:
             --tmpfs /tmp --tmpfs /run --privileged --detach bviktor/ansible-systemd-ubuntu:22.04) &&
             podman exec ${CONT_ID} /bin/bash -c
             "if [ -f requirements.yml ]; then ansible-galaxy role install --force -r requirements.yml -p ..; fi &&
-            mv meta meta-skip &&
-            ANSIBLE_ROLES_PATH=.. ANSIBLE_FORCE_COLOR=true ansible-playbook tests/main.yml &&
-            mv meta-skip meta" &&
+            ANSIBLE_ROLES_PATH=.. ANSIBLE_FORCE_COLOR=true ansible-playbook tests/main.yml" &&
             podman stop ${CONT_ID}

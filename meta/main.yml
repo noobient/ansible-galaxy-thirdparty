@@ -4,9 +4,6 @@ galaxy_info:
   author: Viktor Berke
   description: Add 3rd party repos and install 3rd party packages
   license: license (MIT)
-  min_ansible_version: '2.8'
+  min_ansible_version: '2.10'
   platforms: []
   galaxy_tags: []
-
-dependencies:
-  - bviktor.rpm_policy
