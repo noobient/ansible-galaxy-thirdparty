@@ -21,7 +21,7 @@
   register: thirdparty_unlock
   changed_when: (dnflock_del_str in thirdparty_unlock.stderr)
   failed_when: (thirdparty_unlock.rc != 0) and (thirdparty_unlock.rc != 1)
-  when: (version is not defined) or (thirdparty_installedversion.rc != 0)
+  when: (version is not defined) or (not version | length) or (thirdparty_installedversion.rc != 0)
 
 - name: "Install {{ name }}"
   dnf:
@@ -35,7 +35,7 @@
     cmd: "dnf versionlock add {{ package }}"
   register: thirdparty_lock
   changed_when: (dnflock_add_str in thirdparty_lock.stdout)
-  when: (version is defined) and (thirdparty_installedversion.rc != 0)
+  when: (version is defined) and (version | length ) and (thirdparty_installedversion.rc != 0)
 
 # installing the package adds noise to the repo file in postinst, fix it
 - name: "Fix {{ name }} repo file"
