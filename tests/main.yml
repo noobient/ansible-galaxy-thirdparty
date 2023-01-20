@@ -7,7 +7,7 @@
         name: 'Defender ATP'
         package: 'mdatp'
         gpg_url: 'https://packages.microsoft.com/keys/microsoft.asc'
-        repo_file: 'microsoft-prod'
+        repo_file: 'test-microsoft-prod'
         install_recommends: false
 
     - include_tasks: vulkan.yml
@@ -20,7 +20,7 @@
         package: 'insync'
         gpg_server: 'keyserver.ubuntu.com'
         gpg_id: 'ACCAF35C'
-        repo_file: 'insync'
+        repo_file: 'test-insync'
       when: ansible_distribution == 'Ubuntu'
 
     - include_role:
@@ -29,7 +29,7 @@
         name: 'Google Chrome'
         package: 'google-chrome-stable'
         gpg_file: 'linux_signing_key.pub'
-        repo_file: 'google-chrome'
+        repo_file: 'test-google-chrome'
         repo_overwrite: true
         gpg_allow_sha1: true
 
@@ -43,7 +43,7 @@
       vars:
         name: 'VS Code'
         gpg_url: 'https://packages.microsoft.com/keys/microsoft.asc'
-        repo_file: 'vscode'
+        repo_file: 'test-vscode'
         package: 'code'
         conflict: 'psmisc'
 
