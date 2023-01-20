@@ -7,7 +7,7 @@
   register: thirdparty_unhold
   changed_when: ('was already not hold.' not in thirdparty_unhold.stdout) and (thirdparty_unhold.rc != 100)
   failed_when: (thirdparty_unhold.rc != 0) and (thirdparty_unhold.rc != 100)
-  when: version is not defined
+  when: version is not defined or not version | length
 
 # allow upgrades from one specified version to another
 - name: "Unhold {{ package }}"
@@ -16,7 +16,7 @@
   failed_when: false
   changed_when: thirdparty_unhold2.rc == 0
   register: thirdparty_unhold2
-  when: version is defined
+  when: version is defined and version | length
 
 - name: "Install {{ name }}"
   apt:
@@ -32,7 +32,7 @@
     cmd: "apt-mark hold {{ package }}"
   register: thirdparty_hold
   changed_when: ('was already set on hold.' not in thirdparty_hold.stdout)
-  when: version is defined
+  when: version is defined and version | length
 
 # enforce upgrade if the repo provides a newer version of an Ubuntu package
 # e.g. PostgreSQL's libpq/libgeos packages
