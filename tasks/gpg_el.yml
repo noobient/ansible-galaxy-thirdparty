@@ -19,7 +19,7 @@
 
 # https://www.redhat.com/en/blog/rhel-security-sha-1-package-signatures-distrusted-rhel-9
 - include_role:
-    name: bviktor.rpm_policy
+    name: noobient.rpm_policy
   vars:
     policy: 'LEGACY'
   when: gpg_allow_sha1 is defined and gpg_allow_sha1|bool
@@ -31,7 +31,7 @@
   when: gpg_file is defined
 
 - include_role:
-    name: bviktor.rpm_policy
+    name: noobient.rpm_policy
   vars:
     policy: 'DEFAULT'
   when: gpg_allow_sha1 is defined and gpg_allow_sha1|bool

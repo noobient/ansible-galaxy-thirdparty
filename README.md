@@ -33,7 +33,7 @@ You must specify either:
 
 ```yml
 - include_role:
-    name: bviktor.thirdparty
+    name: noobient.thirdparty
   vars:
     name: 'Defender ATP'
     gpg_url: 'https://packages.microsoft.com/keys/microsoft.asc'
@@ -42,7 +42,7 @@ You must specify either:
     install_recommends: false
 
 - include_role:
-    name: bviktor.thirdparty
+    name: noobient.thirdparty
   vars:
     name: 'Vulkan SDK'
     gpg_url: 'https://packages.lunarg.com/lunarg-signing-key-pub.asc'
