@@ -1,5 +1,5 @@
 ---
-- name: Run ldconfig
+- name: Run ldconfig # noqa no-changed-when
   command:
     cmd: ldconfig
   when: thirdparty_install.changed and ldconfig is defined and ldconfig|bool

@@ -2,6 +2,7 @@
 - name: Check LD paths
   shell:
     cmd: ldconfig -v 2>/dev/null | grep ':'
+  changed_when: false
   register: ld_paths
 
 - debug:
@@ -20,6 +21,7 @@
 - name: Check LD paths
   shell:
     cmd: ldconfig -v 2>/dev/null | grep ':'
+  changed_when: false
   register: ld_paths
 
 - debug:
