@@ -11,7 +11,7 @@
         install_recommends: false
 
     - include_tasks: vulkan.yml
-      when: (ansible_distribution == 'Ubuntu') and (ansible_distribution_major_version >= '20')
+      when: (ansible_distribution == 'Ubuntu') and (ansible_distribution_major_version >= '22')
 
     - include_role:
         name: "{{ playbook_dir.split('/')[:-1] | last }}"
