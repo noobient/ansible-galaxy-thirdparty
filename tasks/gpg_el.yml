@@ -1,4 +1,10 @@
 ---
+- name: Install GnuPG
+  package:
+    name: gnupg2
+  register: noobient_gnupg_installed
+  when: noobient_gnupg_installed is not defined
+
 - name: "Import {{ name }} GPG key"
   rpm_key:
     key: "{{ gpg_url }}"
