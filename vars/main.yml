@@ -3,3 +3,5 @@ yumlock_del_str: 'versionlock delete: no matches'
 yumlock_add_str: 'versionlock added: 0'
 dnflock_del_str: "Deleting versionlock for: {{ package }}"
 dnflock_add_str: "Adding versionlock on: {{ package }}"
+
+eff_gpg_dest: "{% if gpg_dest is defined and gpg_dest | string | length %}{{ gpg_dest }}{% else %}{% if ansible_os_family == 'RedHat' %}/etc/pki/rpm-gpg/{% else %}/etc/apt/trusted.gpg.d/{% endif %}{{ package }}{% endif %}"

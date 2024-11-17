@@ -11,13 +11,22 @@
     state: present
   when: gpg_url is defined
 
+- name: "Make local copy of {{ name }} GPG key"
+  get_url:
+    url: "{{ gpg_url }}"
+    dest: "{{ eff_gpg_dest }}"
+    owner: root
+    group: root
+    mode: '0644'
+  when: gpg_url is defined and gpg_dest is defined
+
 # https://github.com/ansible/ansible/issues/10515
 # Even with workarounds, it gives 'Not a valid key' errors, so copy first.
 # Use 'package' for destination filename, as that should be unique.
 - name: "Copy {{ name }} GPG key"
   copy:
     src: "{{ gpg_file }}"
-    dest: "/etc/pki/rpm-gpg/{{ package }}"
+    dest: "{{ eff_gpg_dest }}"
     owner: root
     group: root
     mode: '0644'
@@ -32,7 +41,7 @@
 
 - name: "Import {{ name }} GPG key"
   rpm_key:
-    key: "/etc/pki/rpm-gpg/{{ package }}"
+    key: "{{ eff_gpg_dest }}"
     state: present
   when: gpg_file is defined
 

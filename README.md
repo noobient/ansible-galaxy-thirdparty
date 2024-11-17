@@ -18,6 +18,7 @@ This role lets you install packages from third party repositories.
 | `gpg_server` | no | `keyserver.ubuntu.com` | GPG server address to import the key from. Only supported on Debian derivatives. |
 | `gpg_id` | no | `ACCAF35C` | ID of the key hosted on the GPG server. Only supported on Debian derivatives. |
 | `gpg_allow_sha1` | no | `true` | By default, EL 9 and up won't allow importing RPM keys with SHA1 algo. Setting this to `true` temporarily changes the policy to allow SHA1 keys. Only supported on Red Hat derivatives. |
+| `gpg_dest` | no | `/etc/pki/rpm-gpg/PGDG-RPM-GPG-KEY` | If specified, copy the specified GPG key to this path. May be needed with certain repos that explicitly use these keys in their repo files. |
 | `ldconfig` | no | `true` | If `true`, ldconfig is ran after the installation finishes. Useful when installing libraries that extend `LD_LIBRARY_PATH`. |
 | `repo_overwrite` | no | `true` | If `true`, the repo file is deployed once more after package installation. Useful when the package alters the repo file during installation and thus would break idempotency, e.g. Google Chrome. |
 | `conflict` | no | `clamav` | Avoid installing `package` on systems where this package is installed. |
@@ -46,6 +47,7 @@ You must specify either:
   vars:
     name: 'Vulkan SDK'
     gpg_url: 'https://packages.lunarg.com/lunarg-signing-key-pub.asc'
+    gpg_dest: '/etc/apt/trusted.gpg.d/lunarg.asc'
     repo_file: 'lunarg-vulkan'
     package: 'vulkan-sdk'
     ldconfig: true

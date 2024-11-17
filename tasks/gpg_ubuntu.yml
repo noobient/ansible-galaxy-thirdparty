@@ -7,13 +7,31 @@
 
 - name: "Import {{ name }} GPG key"
   apt_key:
-    data: "{{ lookup('file', '{{ gpg_file }}') }}"
-    state: present
-  when: gpg_file is defined
-
-- name: "Import {{ name }} GPG key"
-  apt_key:
     keyserver: "{{ gpg_server }}"
     id: "{{ gpg_id }}"
     state: present
   when: (gpg_server is defined) and (gpg_id is defined)
+
+- name: "Make local copy of {{ name }} GPG key"
+  get_url:
+    url: "{% if gpg_url is defined %}{{ gpg_url }}{% else %}https://{{ gpg_server }}/pks/lookup?op=get&search=0x{{ gpg_id }}{% endif %}"
+    dest: "{{ eff_gpg_dest }}"
+    owner: root
+    group: root
+    mode: '0644'
+  when: ((gpg_url is defined) or (gpg_server is defined and gpg_id is defined)) and gpg_dest is defined
+
+- name: "Import {{ name }} GPG key"
+  apt_key:
+    data: "{{ lookup('file', '{{ gpg_file }}') }}"
+    state: present
+  when: gpg_file is defined
+
+- name: "Copy {{ name }} GPG key"
+  copy:
+    src: "{{ gpg_file }}"
+    dest: "{{ eff_gpg_dest }}"
+    owner: root
+    group: root
+    mode: '0644'
+  when: gpg_file is defined and gpg_dest is defined
